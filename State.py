@@ -18,14 +18,14 @@ class State:
         return self.fn
     
     # Setters and getters for the cost g(n).
-    def set_cost(self, cost):
-        self.gn = cost
+    def compute_cost(self):
+        pass
     def get_cost(self):
         return self.gn
     
     # Setters and getters for the heuristic h(n).
-    def set_heuristic(self, heuristic):
-        self.hn = heuristic
+    def compute_heuristic(self):
+        pass
     def get_heuristic(self):
         return self.hn
     

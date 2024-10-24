@@ -6,7 +6,7 @@ from modules.State import State
 class Problem:
     # Our state id: a static variable used to keep track of the number of states we've considered.
     # It's also used as a secondary key in our heap to break ties when popping states.
-    id = -1
+    id = 0
 
     # Our constructor which initializes our problem.
     def __init__(self, initial_state, goal_state):
@@ -33,14 +33,6 @@ class Problem:
         # A set of the states we've seen.
         self.was_seen = set()
 
-        # Defining our initial setup: the initial cost, the state id, and the state.
-        initial_cost = self.initial_state.get_total_cost_mt(self.goal_state, self.tile_map)
-        # Every triplet in the heap is of the form (cost, id, state).
-        initial_setup = [(initial_cost, self.id, self.initial_state)]
-        heapq.heapify(initial_setup)
-        # Our frontier is implemented as a min heap.
-        self.frontier = initial_setup
-
     # Get the current state.
     def get_state(self):
         return self.current_state
@@ -52,6 +44,10 @@ class Problem:
     # Get the total cost of the current state.
     def get_total_cost_mt(self):
         return self.current_state.get_total_cost_mt(self.goal_state, self.tile_map)
+
+    # Get the cost of the current state.
+    def get_cost(self):
+        return self.current_state.get_cost(self.goal_state)
     
     # Get the position of the empty tile.
     def get_empty_tile_pos(self):
@@ -73,6 +69,61 @@ class Problem:
             if new_x >= 0 and new_x < self.rows and new_y >= 0 and new_y < self.cols:
                 possible_moves.append((new_x, new_y))
         return possible_moves
+    
+    # Making a move into the empty tile using Uniform Cost Search (Only the cost is considered, not the heuristic).
+    def make_move_using_ucs(self):
+        popped_state = None
+        # As long as we have states to consider...
+        while len(self.frontier) > 0:
+            # We pop the state w/ the min cost. Recall that our triplets are of the form (cost, id, state).
+            popped_state = heapq.heappop(self.frontier)[2]
+            # If we haven't seen this state before, we can process it.
+            if str(popped_state.state) not in self.was_seen:
+                # Mark the state as seen as we'll be processing it now.
+                self.was_seen.add(str(popped_state.state))
+                break # Breaking out once we have a state to process.
+            # Otherwise, we need to keep popping states until we find one we haven't seen before.
+            else:
+                popped_state = None
+        # If no new states were found, we have reached a dead end.
+        if popped_state == None:
+            print("There are no more possible moves.")
+            return
+        
+        # Now, we can begin to process the popped state.
+        self.current_state = popped_state
+        # Get all the possible moves we can make from the current state.
+        possible_moves = self.get_possible_moves()
+        # Get the position of the empty tile.
+        empty_tile_pos = self.get_empty_tile_pos()
+        empty_i, empty_j = empty_tile_pos
+        # A list to store the new states we can reach from the current state.
+        new_states = []
+
+        # Let's consider all the moves we can make.
+        for move in possible_moves:
+            i,j = move
+            # We need a copy of the current state.
+            current_state_copy = [row[:] for row in self.current_state.state]
+            new_state = State(current_state_copy)
+            # Swap the empty tile with the tile we want to move.
+            new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][empty_j]
+            # For Uniform Cost Search, we only consider the cost of the state.
+            new_state_cost = new_state.get_cost(self.goal_state)
+            # As we've produced a new state, we need to increment our state id.
+            self.id += 1
+            # We can then add the new state to our list of new states.
+            new_states.append((new_state_cost, self.id, new_state))
+        
+        # Next, we need to add the states we haven't seen to our frontier.
+        # Recall that our triplets are of the form (cost, id, state).
+        for state_triplet in new_states:
+            # We store our state (a State object).
+            state = state_triplet[2] 
+            # If we haven't seen this state before, we can add it to our frontier.
+            if str(state.state) not in self.was_seen:
+                # We add the state triplet to our frontier.
+                heapq.heappush(self.frontier, state_triplet)
     
     # Making a move into the empty tile using the MT heuristic.
     def make_move_using_mt(self):
@@ -127,16 +178,51 @@ class Problem:
             if str(state.state) not in self.was_seen:
                 # We add the state triplet to our frontier.
                 heapq.heappush(self.frontier, state_triplet)
+
+    # Solve the problem using Uniform Cost Search.
+    def solve_using_ucs(self):
+        # Resetting the state id.
+        self.id = 0
+        # Defining our initial setup: the initial cost, the state id, and the state.
+        initial_cost = self.initial_state.get_cost(self.goal_state)
+        # Every triplet in the heap is of the form (cost, id, state).
+        initial_setup = [(initial_cost, self.id, self.initial_state)]
+        heapq.heapify(initial_setup)
+        # Our frontier is implemented as a min heap.
+        self.frontier = initial_setup
+
+        # As long as we haven't reached the goal state...
+        while self.current_state.state != self.goal_state:
+            # We make a move using Uniform Cost Search.
+            self.make_move_using_ucs()
+            print("Total Cost: ", self.get_total_cost_mt())
         
+        # Once we've reached the goal state, we've completed the puzzle using UCS.
+        print()
+        print("You have solved the puzzle!")
+        print("Final State: ")
+        self.print_current_state()
+
     # Solve the prolem using the MT heuristic.
     def solve_using_mt(self):
+        # Resetting the state id.
+        self.id = 0
+        # Defining our initial setup: the initial cost, the state id, and the state.
+        initial_cost = self.initial_state.get_total_cost_mt(self.goal_state, self.tile_map)
+        # Every triplet in the heap is of the form (cost, id, state).
+        initial_setup = [(initial_cost, self.id, self.initial_state)]
+        heapq.heapify(initial_setup)
+        # Our frontier is implemented as a min heap.
+        self.frontier = initial_setup
+
         # As long as we haven't reached the goal state...
         while self.current_state.state != self.goal_state:
             # We make a move using the MT heuristic.
             self.make_move_using_mt()
-            #print("Total Cost: ", self.get_total_cost_mt())
+            print("Total Cost: ", self.get_total_cost_mt())
 
         # Once we've reached the goal state, we claim our VICTORY!
+        print()
         print("You have solved the puzzle!")
         print("Final State: ")
         self.print_current_state()

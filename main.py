@@ -1,7 +1,6 @@
 # Importing our State class from State.py.
 from modules.State import State
 from modules.Problem import Problem
-import heapq
 
 init_state = [[1,0,3], # A 0 represents the empty tile.
               [4,2,6],
@@ -27,7 +26,9 @@ problem.print_current_state()
 print("Cost of our Initial State: ", problem.get_total_cost_mt())
 print()
 
-# Solving the 8 puzzle problem.
+# Solving the 8 puzzle problem using UCS.
+#problem.solve_using_ucs()
+
+# Solving the 8 puzzle problem using A* w/ MT heuristic.
 problem.solve_using_mt()
-#problem.make_move_using_mt()
 

@@ -7,9 +7,11 @@ class Problem:
     def __init__(self, initial_state, goal_state):
         self.rows = 3
         self.cols = 3
+        self.num_moves = 0
         # To store our states in the order we visit them.
         self.states = [initial_state]
         self.frontier = []
+        heapq.heapify(self.frontier)
         # Our initial state.
         self.initial_state = initial_state
         # Our goal state.
@@ -56,27 +58,42 @@ class Problem:
 
         return possible_moves
     # Making a move into the empty tile.
-    def make_move(self):
+    def make_move_using_mt(self):
+        self.num_moves += 1
+        # Clearing out the frontier.
+        self.frontier = []
+        heapq.heapify(self.frontier)
         possible_moves = self.get_possible_moves()
         empty_tile_pos = self.get_empty_tile_pos()
         empty_i, empty_j = empty_tile_pos
         new_states = []
         # Let's consider all the moves we can make.
-        for move in possible_moves:
+        for move_num, move in enumerate(possible_moves):
             i,j = move
             # We need a copy of the current state.
             current_state_copy = [row[:] for row in self.states[-1].state]
             new_state = State(current_state_copy)
             new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][empty_j]
             new_state_cost = new_state.get_total_cost_mt(self.goal_state, self.tile_map)
-            new_states.append((new_state_cost, new_state))
+            new_states.append((new_state_cost, move_num, new_state))
         for state in new_states:
-            self.frontier.append(state)
-        heapq.heapify(self.frontier)
-        for state in self.frontier:
-            print("cost: ", state[0])
-            state[1].print_state()
+            heapq.heappush(self.frontier, state)
+        # We want to remove the state with the minimum cost from our frontier.
+        next_state = heapq.heappop(self.frontier)[2]
+        self.states.append(next_state)
         
+    # Solve the prolem.
+    def solve_using_mt(self):
+        while self.states[-1].state != self.goal_state:
+            self.make_move_using_mt()
+            #print()
+            #print("Current State:")
+            #self.print_current_state()
+            print("Total Cost: ", self.get_total_cost_mt())
+        print("You have solved the puzzle!")
+        print("Final State:")
+        self.print_current_state()
+
     
     
     

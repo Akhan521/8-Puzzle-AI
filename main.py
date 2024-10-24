@@ -1,6 +1,7 @@
 # Importing our State class from State.py.
 from modules.State import State
 from modules.Problem import Problem
+import heapq
 
 init_state = [[1,0,3], # A 0 represents the empty tile.
               [4,2,6],
@@ -19,14 +20,10 @@ problem = Problem(state, goal_state)
 # Printing the initial state.
 print("Initial State:")
 problem.print_current_state()
-print("Total Cost: ", problem.get_total_cost_mt())
-empty_tile_pos = problem.get_empty_tile_pos()
-print("Empty Tile Position: ", empty_tile_pos)
-poss_moves = problem.get_possible_moves()
-print("Possible Moves: ", poss_moves)
+print("Cost of our Initial State: ", problem.get_total_cost_mt())
+print()
 
-problem.make_move()
-
-
-
+# Solving the 8 puzzle problem.
+problem.solve_using_mt()
+print("Number of Moves Taken: ", problem.num_moves)
 

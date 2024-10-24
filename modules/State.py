@@ -47,8 +47,8 @@ class State:
                     h_val += abs(i - goal_i) + abs(j - goal_j)
         self.hn = h_val
     # Retrieves the heuristic value of a state (the MT heuristic).
-    def get_heuristic_mt(self, goal_state):
-        self.compute_heuristic_mt(goal_state)
+    def get_heuristic_mt(self, goal_state, tile_map):
+        self.compute_heuristic_mt(goal_state, tile_map)
         return self.hn
     
     # Setters and getters for the state.

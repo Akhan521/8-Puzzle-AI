@@ -10,21 +10,31 @@ oh_boy = [[8,7,1],
           [6,0,2],
           [5,4,3]]
 
+doable = [[0,1,2],
+          [4,5,3],
+          [7,8,6]]
+
+easy = [[1,2,0],
+        [4,5,3],
+        [7,8,6]]
+
+very_easy = [[1,2,3],
+             [4,5,6],
+             [7,0,8]]
+
+trivial = [[1,2,3],
+           [4,5,6],
+           [7,8,0]]
+
 goal_state = [[1,2,3],
               [4,5,6],
               [7,8,0]]
 
 # Creating a State object with our initial state.
-state = State(oh_boy)
+state = State(init_state)
 
 # Creating a Problem object with our initial state and goal state.
 problem = Problem(state, goal_state)
-
-# Printing the initial state.
-print("Initial State:")
-problem.print_current_state()
-print("Cost of our Initial State: ", problem.get_total_cost_mt())
-print()
 
 # Solving the 8 puzzle problem using UCS.
 #problem.solve_using_ucs()

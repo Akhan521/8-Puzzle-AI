@@ -31,7 +31,7 @@ goal_state = [[1,2,3],
               [7,8,0]]
 
 # Creating a State object with our initial state.
-state = State(init_state)
+state = State(oh_boy)
 
 # Creating a Problem object with our initial state and goal state.
 problem = Problem(state, goal_state)

@@ -101,6 +101,12 @@ class Problem:
             print("There are no more possible moves.")
             return
         
+        # If we've reached our goal state, we save some info and return.
+        if popped_state.state == self.goal_state:
+            self.current_state = popped_state
+            self.moves = popped_state_quadruple[3]
+            return
+        
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(self.goal_state)
         hn = popped_state.get_heuristic_mt(self.goal_state, self.tile_map)
@@ -170,6 +176,12 @@ class Problem:
         # If no new states were found, we have reached a dead end.
         if popped_state == None:
             print("There are no more possible moves.")
+            return
+        
+        # If we've reached our goal state, we save some info and return.
+        if popped_state.state == self.goal_state:
+            self.current_state = popped_state
+            self.moves = popped_state_quadruple[3]
             return
         
         # Some helpful text to let us know we're making progress.

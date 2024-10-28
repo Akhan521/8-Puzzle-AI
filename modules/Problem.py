@@ -53,15 +53,15 @@ class Problem:
 
     # Get the total cost of the current state.
     def get_total_cost_mt(self):
-        return self.current_state.get_total_cost_mt(self.goal_state, self.tile_map)
+        return self.current_state.get_total_cost_mt(self.moves, self.goal_state, self.tile_map)
 
     # Get the total cost of the current state. (Euclidean)
     def get_total_cost_euc(self):
-        return self.current_state.get_total_cost_euc(self.goal_state, self.tile_map)
+        return self.current_state.get_total_cost_euc(self.moves, self.goal_state, self.tile_map)
 
     # Get the cost of the current state.
     def get_cost(self):
-        return self.current_state.get_cost(self.goal_state)
+        return self.current_state.get_cost(self.moves)
     
     # Get the position of the empty tile.
     def get_empty_tile_pos(self):
@@ -109,12 +109,14 @@ class Problem:
         if popped_state.state == self.goal_state:
             self.current_state = popped_state
             self.moves = popped_state_quadruple[3]
+            gn = popped_state.get_cost(popped_state_quadruple[3])
+            print(f"The final state w/ g(n)={gn} is...")
+            popped_state.print_state()
             return
         
         # Some helpful text to let us know we're making progress.
-        gn = popped_state.get_cost(self.goal_state)
-        hn = popped_state.get_heuristic_mt(self.goal_state, self.tile_map)
-        print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
+        gn = popped_state.get_cost(popped_state_quadruple[3])
+        print(f"The best state to expand w/ g(n)={gn} is...")
         popped_state.print_state()
         print()
         # Increment the number of nodes we've expanded.
@@ -142,11 +144,11 @@ class Problem:
             new_state = State(current_state_copy)
             # Swap the empty tile with the tile we want to move.
             new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][empty_j]
-            # For Uniform Cost Search, we only consider the cost of the state.
-            new_state_cost = new_state.get_cost(self.goal_state)
-            # As we've produced a new state, we need to increment our state id and # of moves.
-            self.id += 1
+            # For Uniform Cost Search, we only consider the cost of the state (i.e. the moves to reach the current state).
             num_moves += 1
+            new_state_cost = num_moves
+            # As we've produced a new state, we need to increment our state id.
+            self.id += 1
             # We can then add the new state to our list of new states.
             new_states.append((new_state_cost, self.id, new_state, num_moves))
         
@@ -186,10 +188,14 @@ class Problem:
         if popped_state.state == self.goal_state:
             self.current_state = popped_state
             self.moves = popped_state_quadruple[3]
+            gn = popped_state.get_cost(popped_state_quadruple[3])
+            hn = popped_state.get_heuristic_mt(self.goal_state, self.tile_map)
+            print(f"The final state w/ g(n)={gn} and h(n)={hn} is...")
+            popped_state.print_state()
             return
         
         # Some helpful text to let us know we're making progress.
-        gn = popped_state.get_cost(self.goal_state)
+        gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_mt(self.goal_state, self.tile_map)
         print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
         popped_state.print_state()
@@ -220,10 +226,11 @@ class Problem:
             new_state = State(current_state_copy)
             # Swap the empty tile with the tile we want to move.
             new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][empty_j]
-            new_state_cost = new_state.get_total_cost_mt(self.goal_state, self.tile_map)
-            # As we've produced a new state, we need to increment our state id and # of moves.
-            self.id += 1
+            # For A* search w/ the MT heuristic, we consider the total cost of the state.
             num_moves += 1
+            new_state_cost = new_state.get_total_cost_mt(num_moves, self.goal_state, self.tile_map)
+            # As we've produced a new state, we need to increment our state id.
+            self.id += 1
             # We can then add the new state to our list of new states.
             new_states.append((new_state_cost, self.id, new_state, num_moves))
         
@@ -258,9 +265,19 @@ class Problem:
         if popped_state == None:
             print("There are no more possible moves.")
             return
+        
+        # If we've reached our goal state, we save some info and return.
+        if popped_state.state == self.goal_state:
+            self.current_state = popped_state
+            self.moves = popped_state_quadruple[3]
+            gn = popped_state.get_cost(popped_state_quadruple[3])
+            hn = popped_state.get_heuristic_mt(self.goal_state, self.tile_map)
+            print(f"The final state w/ g(n)={gn} and h(n)={hn} is...")
+            popped_state.print_state()
+            return
 
         # Some helpful text to let us know we're making progress.
-        gn = popped_state.get_cost(self.goal_state)
+        gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_euc(self.goal_state, self.tile_map)
         print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
         popped_state.print_state()
@@ -272,7 +289,6 @@ class Problem:
         # Storing the number of moves we've made to reach our current state.
         num_moves = popped_state_quadruple[3]
         self.moves = num_moves
-        # print('Moves so far: ', self.moves)
         # Get all the possible moves we can make from the current state.
         possible_moves = self.get_possible_moves()
         # Get the position of the empty tile.
@@ -290,12 +306,12 @@ class Problem:
             current_state_copy = [row[:] for row in self.current_state.state]
             new_state = State(current_state_copy)
             # Swap the empty tile with the tile we want to move.
-            new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][
-                empty_j]
-            new_state_cost = new_state.get_total_cost_euc(self.goal_state, self.tile_map)
-            # As we've produced a new state, we need to increment our state id and # of moves.
-            self.id += 1
+            new_state.state[empty_i][empty_j], new_state.state[i][j] = new_state.state[i][j], new_state.state[empty_i][empty_j]
+            # For A* search w/ the EUC heuristic, we consider the total cost of the state.
             num_moves += 1
+            new_state_cost = new_state.get_total_cost_euc(num_moves, self.goal_state, self.tile_map)
+            # As we've produced a new state, we need to increment our state id.
+            self.id += 1
             # We can then add the new state to our list of new states.
             new_states.append((new_state_cost, self.id, new_state, num_moves))
 
@@ -314,8 +330,8 @@ class Problem:
     def solve_using_ucs(self):
         # Resetting the state id.
         self.id = 0
-        # Defining our initial setup: the initial cost, the state id, and the state.
-        initial_cost = self.initial_state.get_cost(self.goal_state)
+        # Defining our initial setup: the initial cost, the state id, the state itself, and the moves we've made.
+        initial_cost = 0
         # Every quadruple in the heap is of the form (cost, id, state, moves).
         initial_setup = [(initial_cost, self.id, self.initial_state, 0)]
         heapq.heapify(initial_setup)
@@ -347,8 +363,8 @@ class Problem:
     def solve_using_mt(self):
         # Resetting the state id.
         self.id = 0
-        # Defining our initial setup: the initial cost, the state id, and the state.
-        initial_cost = self.initial_state.get_total_cost_mt(self.goal_state, self.tile_map)
+        # Defining our initial setup: the initial cost, the state id, the state itself, and the moves we've made.
+        initial_cost = 0
         # Every quadruple in the heap is of the form (cost, id, state, moves).
         initial_setup = [(initial_cost, self.id, self.initial_state, 0)]
         heapq.heapify(initial_setup)
@@ -381,8 +397,8 @@ class Problem:
     def solve_using_euc(self):
         # Resetting the state id.
         self.id = 0
-        # Defining our initial setup: the initial cost, the state id, and the state.
-        initial_cost = self.initial_state.get_total_cost_euc(self.goal_state, self.tile_map)
+        # Defining our initial setup: the initial cost, the state id, the state itself, and the moves we've made.
+        initial_cost = 0
         # Every quadruple in the heap is of the form (cost, id, state, moves).
         initial_setup = [(initial_cost, self.id, self.initial_state, 0)]
         heapq.heapify(initial_setup)

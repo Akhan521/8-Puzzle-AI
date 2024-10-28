@@ -14,7 +14,7 @@ class State:
         # The total cost of our state.
         self.fn = 0
 
-    # Computes the total cost of a function using the Misplaced tile heuristic.
+    # Computes the total cost of a state using the Manhattan distance heuristic.
     def compute_total_cost_mt(self, num_moves, goal_state, tile_map):
         self.compute_cost(num_moves)
         self.compute_heuristic_mt(goal_state, tile_map)
@@ -24,7 +24,7 @@ class State:
         self.compute_total_cost_mt(num_moves, goal_state, tile_map)
         return self.fn
 
-    # Computes the total cost of a function using the Euclidean distance
+    # Computes the total cost of a state using the Euclidean distance
     def compute_total_cost_euc(self, num_moves, goal_state, tile_map):
         self.compute_cost(num_moves)
         self.compute_heuristic_euc(goal_state, tile_map)
@@ -45,7 +45,7 @@ class State:
         self.compute_cost(num_moves)
         return self.gn
     
-    # Computes the heuristic value of a state using the Manhattan distance/Misplaced tile heuristic.
+    # Computes the heuristic value of a state using the Manhattan distance heuristic.
     def compute_heuristic_mt(self, goal_state, tile_map):
         h_val = 0
         for i in range(self.rows):

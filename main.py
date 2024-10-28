@@ -40,5 +40,7 @@ problem = Problem(state, goal_state)
 #problem.solve_using_ucs()
 
 # Solving the 8 puzzle problem using A* w/ MT heuristic.
-problem.solve_using_mt()
+#problem.solve_using_mt()
 
+# Solving the 8 puzzle problem using EUC
+problem.solve_using_euc()

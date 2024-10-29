@@ -15,22 +15,33 @@ class State:
         self.fn = 0
 
     # Computes the total cost of a state using the Manhattan distance heuristic.
-    def compute_total_cost_mt(self, num_moves, goal_state, tile_map):
+    def compute_total_cost_md(self, num_moves, goal_state, tile_map):
         self.compute_cost(num_moves)
-        self.compute_heuristic_mt(goal_state, tile_map)
+        self.compute_heuristic_md(goal_state, tile_map)
         self.fn = self.gn + self.hn
+    # Retrieves the total cost using the MD heuristic.
+    def get_total_cost_md(self, num_moves, goal_state, tile_map):
+        self.compute_total_cost_md(num_moves, goal_state, tile_map)
+        return self.fn
+    
+    # Computes the total cost of a state using the Misplaced Tiles heuristic.
+    def compute_total_cost_mt(self, num_moves, goal_state):
+        self.compute_cost(num_moves)
+        self.compute_heuristic_mt(goal_state)
+        self.fn = self.gn + self.hn
+
     # Retrieves the total cost using the MT heuristic.
-    def get_total_cost_mt(self, num_moves, goal_state, tile_map):
-        self.compute_total_cost_mt(num_moves, goal_state, tile_map)
+    def get_total_cost_mt(self, num_moves, goal_state):
+        self.compute_total_cost_mt(num_moves, goal_state)
         return self.fn
 
-    # Computes the total cost of a state using the Euclidean distance
+    # Computes the total cost of a state using Euclidean distance.
     def compute_total_cost_euc(self, num_moves, goal_state, tile_map):
         self.compute_cost(num_moves)
         self.compute_heuristic_euc(goal_state, tile_map)
         self.fn = self.gn + self.hn
 
-    #Retrieves (like a dog) the total cost using EUC heuristic
+    # Retrieves the total cost using the EUC heuristic.
     def get_total_cost_euc(self, num_moves, goal_state, tile_map):
         self.compute_total_cost_euc(num_moves, goal_state, tile_map)
         return self.fn
@@ -45,8 +56,17 @@ class State:
         self.compute_cost(num_moves)
         return self.gn
     
+    # Computes the heuristic value of a state using the Misplaced Tiles heuristic.
+    def compute_heuristic_mt(self, goal_state):
+        h_val = 0
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.state[i][j] != 0 and self.state[i][j] != goal_state[i][j]:
+                    h_val += 1
+        self.hn = h_val
+    
     # Computes the heuristic value of a state using the Manhattan distance heuristic.
-    def compute_heuristic_mt(self, goal_state, tile_map):
+    def compute_heuristic_md(self, goal_state, tile_map):
         h_val = 0
         for i in range(self.rows):
             for j in range(self.cols):
@@ -54,9 +74,10 @@ class State:
                     goal_i, goal_j = tile_map[self.state[i][j]]
                     h_val += abs(i - goal_i) + abs(j - goal_j)
         self.hn = h_val
-    # Retrieves the heuristic value of a state (the MT heuristic).
-    def get_heuristic_mt(self, goal_state, tile_map):
-        self.compute_heuristic_mt(goal_state, tile_map)
+
+    # Retrieves the heuristic value of a state (the MD heuristic).
+    def get_heuristic_md(self, goal_state, tile_map):
+        self.compute_heuristic_md(goal_state, tile_map)
         return self.hn
 
     # Compute the heuristic value of a state using the Euclidean distance
@@ -72,12 +93,17 @@ class State:
     def get_heuristic_euc(self, goal_state, tile_map):
         self.compute_heuristic_euc(goal_state, tile_map)
         return self.hn
+    
+    def get_heuristic_mt(self, goal_state):
+        self.compute_heuristic_mt(goal_state)
+        return self.hn
 
     # Setters and getters for the state.
     def set_state(self, state):
         self.state = state
     def get_state(self):
         return self.state
+    
     # Prints the state.
     def print_state(self):
         for row in self.state:

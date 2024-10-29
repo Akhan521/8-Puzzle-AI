@@ -31,11 +31,11 @@ goal_state = [[1,2,3],
               [4,5,6],
               [7,8,0]]
 
-print("Welcome to 862400489's and 862425795's 8 puzzle solver.")
-option = input("Type '1' to use a default puzzle, or '2' to enter your own puzzle.\n")
+print("\nWelcome to 862400489's and 862425795's 8 puzzle solver.")
+option = input("Type '1' to use a default puzzle, or '2' to enter your own puzzle.\nYour choice: ")
 
 if option == '2':
-    print("Enter your puzzle, use a zero to represent the blank.")
+    print("\nEnter your puzzle, use a zero to represent the blank.")
     row_1 = input("Enter the first row, use spaces or tabs between numbers: ")
     row_1 = [int(item) for item in row_1.split()]
     row_2 = input("Enter the second row, use spaces or tabs between numbers: ")
@@ -48,6 +48,7 @@ if option == '2':
     print("1. Uniform Cost Search")
     print("2. A* with the Manhattan Distance Heuristic")
     print("3. A* with the Euclidean Distance Heuristic")
+    print("4. A* with the Misplaced Tiles Heuristic")
     choice = input("\nYour choice: ")
 
     state = State(puzzle)
@@ -56,9 +57,13 @@ if option == '2':
     if choice == '1':
         problem.solve_using_ucs()
     elif choice == '2':
-        problem.solve_using_mt()
+        problem.solve_using_md()
     elif choice == '3':
         problem.solve_using_euc()
+    elif choice == '4':
+        problem.solve_using_mt()
+    else:
+        print("Invalid choice. Aborting...")
 else:
     # Creating a State object with our initial state.
     state = State(init_state)
@@ -69,8 +74,11 @@ else:
     # Solving the 8 puzzle problem using UCS.
     #problem.solve_using_ucs()
 
-    # Solving the 8 puzzle problem using A* w/ MT heuristic.
-    #problem.solve_using_mt()
+    # Solving the 8 puzzle problem using A* w/ the MD (Manhattan Distance) heuristic.
+    #problem.solve_using_md()
 
     # Solving the 8 puzzle problem using EUC
     problem.solve_using_euc()
+
+    # Solving the 8 puzzle problem using A* w/ the MT heuristic.
+    #problem.solve_using_mt()

@@ -107,6 +107,7 @@ class Problem:
         # If no new states were found, we have reached a dead end.
         if popped_state == None:
             print("There are no more possible moves.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # If we've reached our goal state, we save some info and return.
@@ -116,6 +117,12 @@ class Problem:
             gn = popped_state.get_cost(popped_state_quadruple[3])
             print(f"The final state w/ g(n)={gn} is...")
             popped_state.print_state()
+            return
+        
+        # The diameter of the puzzle is 31, so we can't have more than 31 moves.
+        if popped_state_quadruple[3] > 31:
+            print("The puzzle is unsolvable.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # Some helpful text to let us know we're making progress.
@@ -186,6 +193,7 @@ class Problem:
         # If no new states were found, we have reached a dead end.
         if popped_state == None:
             print("There are no more possible moves.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # If we've reached our goal state, we save some info and return.
@@ -196,6 +204,12 @@ class Problem:
             hn = popped_state.get_heuristic_md(self.goal_state, self.tile_map)
             print(f"The final state w/ g(n)={gn} and h(n)={hn} is...")
             popped_state.print_state()
+            return
+        
+        # The diameter of the puzzle is 31, so we can't have more than 31 moves.
+        if popped_state_quadruple[3] > 31:
+            print("The puzzle is unsolvable.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # Some helpful text to let us know we're making progress.
@@ -268,6 +282,7 @@ class Problem:
         # If no new states were found, we have reached a dead end.
         if popped_state == None:
             print("There are no more possible moves.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # If we've reached our goal state, we save some info and return.
@@ -278,6 +293,12 @@ class Problem:
             hn = popped_state.get_heuristic_mt(self.goal_state)
             print(f"The final state w/ g(n)={gn} and h(n)={hn} is...")
             popped_state.print_state()
+            return
+        
+        # The diameter of the puzzle is 31, so we can't have more than 31 moves.
+        if popped_state_quadruple[3] > 31:
+            print("The puzzle is unsolvable.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # Some helpful text to let us know we're making progress.
@@ -349,6 +370,7 @@ class Problem:
         # If no new states were found, we have reached a dead end.
         if popped_state == None:
             print("There are no more possible moves.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
         
         # If we've reached our goal state, we save some info and return.
@@ -359,6 +381,12 @@ class Problem:
             hn = popped_state.get_heuristic_md(self.goal_state, self.tile_map)
             print(f"The final state w/ g(n)={gn} and h(n)={hn} is...")
             popped_state.print_state()
+            return
+        
+        # The diameter of the puzzle is 31, so we can't have more than 31 moves.
+        if popped_state_quadruple[3] > 31:
+            print("The puzzle is unsolvable.")
+            self.moves = -1 # Setting the number of moves to -1 to indicate that the puzzle is unsolvable.
             return
 
         # Some helpful text to let us know we're making progress.
@@ -430,6 +458,10 @@ class Problem:
         while self.current_state.state != self.goal_state:
             # We make a move using Uniform Cost Search.
             self.make_move_using_ucs()
+            # If the number of moves is -1, the puzzle is unsolvable.
+            if self.moves == -1:
+                print("The solution to this puzzle configuration is not possible.")
+                return
         
         # Once we've reached the goal state, we've completed the puzzle using UCS.
         print()
@@ -463,6 +495,10 @@ class Problem:
         while self.current_state.state != self.goal_state:
             # We make a move using the MD heuristic.
             self.make_move_using_md()
+            # If the number of moves is -1, the puzzle is unsolvable.
+            if self.moves == -1:
+                print("The solution to this puzzle configuration is not possible.")
+                return
 
         # Once we've reached the goal state, we claim our VICTORY!
         print()
@@ -496,6 +532,10 @@ class Problem:
         while self.current_state.state != self.goal_state:
             # We make a move using the MT heuristic.
             self.make_move_using_mt()
+            # If the number of moves is -1, the puzzle is unsolvable.
+            if self.moves == -1:
+                print("The solution to this puzzle configuration is not possible.")
+                return
 
         # Once we've reached the goal state, we claim our VICTORY!
         print()
@@ -530,6 +570,10 @@ class Problem:
         while self.current_state.state != self.goal_state:
             # We make a move using the EUC heuristic.
             self.make_move_using_euc()
+            # If the number of moves is -1, the puzzle is unsolvable.
+            if self.moves == -1:
+                print("The solution to this puzzle configuration is not possible.")
+                return
 
         # Once we've reached the goal state, we claim our VICTORY!
         print()

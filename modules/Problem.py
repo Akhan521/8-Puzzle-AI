@@ -392,9 +392,9 @@ class Problem:
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_euc(self.goal_state, self.tile_map)
-        #print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
-        #popped_state.print_state()
-        #print()
+        print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
+        popped_state.print_state()
+        print()
         # Increment the number of nodes we've expanded.
         self.nodes_expanded += 1
         # Now, we can begin to process the popped state.
@@ -474,8 +474,7 @@ class Problem:
         self.print_current_state()
         print()
         # We print the number of nodes we've expanded, the max nodes in our frontier, and the depth of the goal node.
-        # The number of nodes expanded must be offset by 1 because we increment it when processing the initial state.
-        print(f"To solve this problem, UC search expanded a total of {self.nodes_expanded-1} nodes.")
+        print(f"To solve this problem, UC search expanded a total of {self.nodes_expanded} nodes.")
         print(f"The maximum number of nodes in the frontier at any given time was: {self.max_nodes}")
         print("The depth of the goal node is: ", self.get_moves())
         print()
@@ -515,8 +514,7 @@ class Problem:
         self.print_current_state()
         print()
         # We print the number of nodes we've expanded, the max nodes in our frontier, and the depth of the goal node.
-        # The number of nodes expanded must be offset by 1 because we increment it when processing the initial state.
-        print(f"To solve this problem, A* search w/ the MD heuristic expanded a total of {self.nodes_expanded-1} nodes.")
+        print(f"To solve this problem, A* search w/ the MD heuristic expanded a total of {self.nodes_expanded} nodes.")
         print(f"The maximum number of nodes in the frontier at any given time was: {self.max_nodes}")
         print("The depth of the goal node is: ", self.get_moves())
         print()
@@ -556,8 +554,7 @@ class Problem:
         self.print_current_state()
         print()
         # We print the number of nodes we've expanded, the max nodes in our frontier, and the depth of the goal node.
-        # The number of nodes expanded must be offset by 1 because we increment it when processing the initial state.
-        print(f"To solve this problem, A* search w/ the MT heuristic expanded a total of {self.nodes_expanded-1} nodes.")
+        print(f"To solve this problem, A* search w/ the MT heuristic expanded a total of {self.nodes_expanded} nodes.")
         print(f"The maximum number of nodes in the frontier at any given time was: {self.max_nodes}")
         print("The depth of the goal node is: ", self.get_moves())
         print()
@@ -598,8 +595,7 @@ class Problem:
         self.print_current_state()
         print()
         # We print the number of nodes we've expanded, the max nodes in our frontier, and the depth of the goal node.
-        # The number of nodes expanded must be offset by 1 because we increment it when processing the initial state.
-        print(f"To solve this problem, A* search w/ the EUC heuristic expanded a total of {self.nodes_expanded-1} nodes.")
+        print(f"To solve this problem, A* search w/ the EUC heuristic expanded a total of {self.nodes_expanded} nodes.")
         print(f"The maximum number of nodes in the frontier at any given time was: {self.max_nodes}")
         print("The depth of the goal node is: ", self.get_moves())
         print()

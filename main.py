@@ -70,7 +70,7 @@ if option == '2':
         print("Invalid choice. Aborting...")
 else:
     # Creating a State object with our initial state.
-    state = State(impossible)
+    state = State(init_state)
 
     # Creating a Problem object with our initial state and goal state.
     problem = Problem(state, goal_state)

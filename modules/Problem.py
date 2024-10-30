@@ -127,9 +127,9 @@ class Problem:
         
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(popped_state_quadruple[3])
-        print(f"The best state to expand w/ g(n)={gn} is...")
-        popped_state.print_state()
-        print()
+        #print(f"The best state to expand w/ g(n)={gn} is...")
+        #popped_state.print_state()
+        #print()
         # Increment the number of nodes we've expanded.
         self.nodes_expanded += 1
         # Now, we can begin to process the popped state.
@@ -215,9 +215,9 @@ class Problem:
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_md(self.goal_state, self.tile_map)
-        print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
-        popped_state.print_state()
-        print()
+        #print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
+        #popped_state.print_state()
+        #print()
         # Increment the number of nodes we've expanded.
         self.nodes_expanded += 1
         # Now, we can begin to process the popped state.
@@ -304,9 +304,9 @@ class Problem:
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_mt(self.goal_state)
-        print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
-        popped_state.print_state()
-        print()
+        #print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
+        #popped_state.print_state()
+        #print()
         # Increment the number of nodes we've expanded.
         self.nodes_expanded += 1
         # Now, we can begin to process the popped state.
@@ -392,9 +392,9 @@ class Problem:
         # Some helpful text to let us know we're making progress.
         gn = popped_state.get_cost(popped_state_quadruple[3])
         hn = popped_state.get_heuristic_euc(self.goal_state, self.tile_map)
-        print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
-        popped_state.print_state()
-        print()
+        #print(f"The best state to expand w/ g(n)={gn} and h(n)={hn} is...")
+        #popped_state.print_state()
+        #print()
         # Increment the number of nodes we've expanded.
         self.nodes_expanded += 1
         # Now, we can begin to process the popped state.
@@ -451,6 +451,10 @@ class Problem:
         # Our frontier is implemented as a min heap.
         self.frontier = initial_setup
 
+        if self.current_state.state == self.goal_state:
+            print("You already have the goal state.")
+            return
+
         # We will begin processing the initial state.
         print("\nExpanding the initial state...")
 
@@ -487,6 +491,10 @@ class Problem:
         heapq.heapify(initial_setup)
         # Our frontier is implemented as a min heap.
         self.frontier = initial_setup
+
+        if self.current_state.state == self.goal_state:
+            print("You already have the goal state.")
+            return
 
         # We will begin processing the initial state.
         print("\nExpanding the initial state...")
@@ -525,6 +533,10 @@ class Problem:
         # Our frontier is implemented as a min heap.
         self.frontier = initial_setup
 
+        if self.current_state.state == self.goal_state:
+            print("You already have the goal state.")
+            return
+
         # We will begin processing the initial state.
         print("\nExpanding the initial state...")
 
@@ -562,6 +574,10 @@ class Problem:
         heapq.heapify(initial_setup)
         # Our frontier is implemented as a min heap.
         self.frontier = initial_setup
+
+        if self.current_state.state == self.goal_state:
+            print("You already have the goal state.")
+            return
 
         # We will begin processing the initial state.
         print("\nExpanding the initial state...")

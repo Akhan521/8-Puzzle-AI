@@ -35,7 +35,7 @@ goal_state = [[1,2,3],
               [4,5,6],
               [7,8,0]]
 
-print("\nWelcome to 862400489's and 862425795's 8 puzzle solver.")
+print("\nWelcome to our 8-puzzle solver.")
 option = input("Type '1' to use a default puzzle, or '2' to enter your own puzzle.\nYour choice: ")
 
 if option == '2':

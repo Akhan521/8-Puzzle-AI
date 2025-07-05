@@ -1,56 +1,93 @@
 # 8-Puzzle-AI: Solving the Classic 8-Puzzle Game Using AI Search Algos.
 
-This project solves the classic 8-Puzzle game using a variety of AI search algorithms:
-- **Uniform Cost Search (UCS)**
-- **A\* Search with the Manhattan Distance heuristic**
-- **A\* Search with the Euclidean Distance heuristic**
-- **A\* Search with the Misplaced Tiles heuristic**
+## 🧩 What is the 8-Puzzle Game?
 
-Built in Python, this 8-Puzzle solver demonstrates core concepts in AI including state-space search, admissible heuristics, and optimal pathfinding.
+The 8-Puzzle is a classic sliding tile puzzle made up of a 3×3 grid with **eight numbered tiles (1–8)** and **one empty space**. The challenge is to rearrange the tiles by sliding them one at a time into the empty space until all the tiles are in the correct order.
 
----
+It typically begins with the tiles in a scrambled setup like this:
 
-## What is the 8-Puzzle Game?
-
-The 8-Puzzle is a sliding puzzle game, with 8 numbered square tiles and one empty space. The goal is to reach the goal state seen below by sliding the tiles around strategically.
-
-**Goal State:**
 ```
-1 2 3
-4 5 6
-7 8 0
+1 2 3  
+4 0 6  
+7 5 8  
 ```
+
+And your objective is to reach the **goal state**:
+
+```
+1 2 3  
+4 5 6  
+7 8 0  
+```
+
 Where `0` represents the empty tile.
 
----
-
-## Search Algorithms Implemented
-
-| Algorithm                     | Heuristic Used             | Description                                                  |
-|------------------------------|-----------------------------|--------------------------------------------------------------|
-| Uniform Cost Search (UCS)    | None                        | Expands nodes based only on path cost `g(n)`                 |
-| A* with Manhattan Distance   | Sum of vertical + horizontal distances | Optimal and efficient in practice                            |
-| A* with Euclidean Distance   | Straight-line (geometric) distance       | Good spatial approximation                                   |
-| A* with Misplaced Tiles      | Number of misplaced tiles   | Simple but effective in many cases                           |
+Each move slides a neighboring tile into the empty space, kind of like sliding puzzle pieces around without picking them up. While the rules are simple, solving it efficiently can be tricky, which is why I leverage AI to understand and test how computers make smart decisions, plan ahead, and find the best path to a goal.
 
 ---
+## 🔍 AI Search Strategies Explained
 
-## Getting Started / Running the Project
+This project solves the classic 8-Puzzle game using several intelligent search strategies from the field of artificial intelligence:
 
-### 1. Clone the Repository
+- **Uniform Cost Search (UCS):** Always expands the least-cost path first, like taking the most affordable step toward the solution.
+- **A\* with Manhattan Distance:** Uses the number of moves (up, down, left, right) each tile is away from where it belongs (fast and highly effective).
+- **A\* with Euclidean Distance:** Measures the straight-line distance from each tile’s current spot to its goal, good for estimating the shortest distance to the goal.
+- **A\* with Misplaced Tiles:** Simply counts how many tiles are in the wrong place (quick and intuitive).
+
+Built in Python, this solver highlights important AI concepts like search trees, heuristics (rules of thumb for guiding decisions), and how computers can find the most efficient path to a goal, all through the lens of a seemingly simple puzzle.
+
+> ### 🧠 What Are Heuristics?
+> In artificial intelligence, **heuristics** are smart rules or shortcuts that help guide decision-making. Instead of checking every possible move, a heuristic gives the solver a good guess about which options are closer to the goal. In the 8-Puzzle, this means prioritizing puzzle states that look more "solved," helping the AI find the solution faster and more efficiently.
+
+
+### 💡  Side-by-Side Comparison
+
+| Algorithm                     | Heuristic Used                 | Description                                                  |
+|------------------------------|---------------------------------|--------------------------------------------------------------|
+| Uniform Cost Search (UCS)    | None                            | Expands the path with the lowest cost so far                 |
+| A* with Manhattan Distance   | Moves needed (up/down/left/right) | Fast, effective, and always finds the shortest path         |
+| A* with Euclidean Distance   | Straight-line distance           | Estimates the most direct distance to the goal               |
+| A* with Misplaced Tiles      | Number of wrong-position tiles  | Simple and quick, good for small puzzles                     |
+
+---
+
+## 🚀 Getting Started
+
+Ready to solve the 8-Puzzle with AI? Follow these steps to run the project locally:
+
+### ✅ Prerequisites
+- Make sure you have **Python 3.8 or higher** installed  
+  → [Download Python here](https://www.python.org/downloads/)
+
+### 📦 1. Clone the Repository
+
+Open your terminal or PowerShell and run:
+
 ```bash
 git clone https://github.com/Akhan521/8-Puzzle-AI.git
 cd 8-Puzzle-AI
 ```
 
-### 2. Run the 8-Puzzle Solver
+### 🔧 2. (Optional but Recommended) Create a Virtual Environment
+
+```bash
+python -m venv venv
+# Activate it:
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
+```
+
+### ▶️ 3. Run the 8-Puzzle Solver
+
 ```bash
 python main.py
 ```
 
 ---
 
-## 💻 Example Run
+## 💻 Example Run (Excluding Our Solution)
 
 ```
 Welcome to our 8-puzzle solver.
@@ -72,7 +109,7 @@ Your choice: 2
 
 ---
 
-## Features
+## ✨ Features
 
 - Handles multiple preset/provided and custom puzzles
 - Prints each state as it's expanded
@@ -82,7 +119,7 @@ Your choice: 2
 
 ---
 
-## Reflecting on Lessons Learned
+##  📚 Reflecting on Lessons Learned
 
 This project helped us apply and internalize several core concepts in AI and software engineering:
 
@@ -106,7 +143,7 @@ This project helped us apply and internalize several core concepts in AI and sof
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 8-Puzzle-AI/
@@ -115,13 +152,13 @@ This project helped us apply and internalize several core concepts in AI and sof
 ├── modules/
 │   ├── State.py          # Represents puzzle state, heuristics
 │   └── Problem.py        # Core search logic and algorithms
-├── README.md             # This file
+├── README.md             
 └── .gitignore
 ```
 
 ---
 
-## Authors
+## 👥 Authors
 
 1. **Aamir Khan**  
  [LinkedIn](https://www.linkedin.com/in/aamir-khan-bb83b8235)  

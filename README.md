@@ -1,4 +1,4 @@
-# 8-Puzzle-AI: Solving the Classic 8-Puzzle Game Using AI Search Algos.
+# 8-Puzzle-AI: Solving the Classic 8-Puzzle Game Using AI
 
 ## 🧩 What is the 8-Puzzle Game?
 

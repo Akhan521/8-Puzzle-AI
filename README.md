@@ -162,9 +162,10 @@ This project helped us apply and internalize several core concepts in AI and sof
 
 1. **Aamir Khan**  
  [LinkedIn](https://www.linkedin.com/in/aamir-khan-aak521/)  
- [GitHub](https://github.com/Akhan521)
+ [GitHub](https://github.com/Akhan521)  
+ [Portfolio](https://aamir-khans-portfolio.vercel.app/)
 
-2. **Abdi Nava**  
+3. **Abdi Nava**  
  [LinkedIn](https://www.linkedin.com/in/abdinava/)  
  [GitHub](https://github.com/abdinava)
 

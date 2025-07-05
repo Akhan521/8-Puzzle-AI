@@ -161,7 +161,7 @@ This project helped us apply and internalize several core concepts in AI and sof
 ## 👥 Authors
 
 1. **Aamir Khan**  
- [LinkedIn](https://www.linkedin.com/in/aamir-khan-bb83b8235)  
+ [LinkedIn](https://www.linkedin.com/in/aamir-khan-aak521/)  
  [GitHub](https://github.com/Akhan521)
 
 2. **Abdi Nava**  
